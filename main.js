@@ -371,6 +371,24 @@ function gPush() {
     MS.push(modelMatrix) ;
 }
 
+function create_cat_body(){
+    gScale(0.7,0.5,0.5);
+    drawSphere();
+}
+
+function create_leg_parts(){
+    gScale(0.4,0.4,0.4);
+    gScale(0.5,1,0.5);
+    drawSphere();
+}
+
+function create_foot_part(){
+    gScale(0.3,0.3,0.3);
+    gScale(0.5,1,0.5);
+    drawSphere();
+}
+
+
 function render() {
     
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -423,47 +441,91 @@ function render() {
     gl.bindTexture(gl.TEXTURE_2D, textureArray[2].textureWebGL);
     gl.uniform1i(gl.getUniformLocation(program, "texture3"), 2);
     
-    
-    gTranslate(-4,0,0) ;
-    gPush() ;
-    {
-        gRotate(TIME*180/3.14159,0,1,0) ;
-        setColor(vec4(1.0,0.0,0.0,1.0)) ;
-        drawSphere() ;
+    // ** Cat modeling starts here **
+    gPush();
+    {//body left (lower body)
+        create_cat_body();
     }
-    gPop() ;
-    
-    gPush() ;
-    {
-        gTranslate(3,0,0) ;
-        setColor(vec4(0.0,1.0,0.0,1.0)) ;
-        gRotate(TIME*180/3.14159,0,1,0) ;
-        drawCube() ;
+    gPop();
+
+    gPush();
+    {//body right (upper body)
+        gTranslate(1,0,0);
+        create_cat_body();
     }
-    gPop() ;
-    
-   
-    
-    gPush() ;
-    {
-        gTranslate(5,0,0) ;
-        setColor(vec4(0.0,1.0,1.0,1.0)) ;
-        gRotate(TIME*180/3.14159,0,1,0) ;
-        drawCylinder() ;
+    gPop();
+    //left right seeing cat from the face
+    gPush();
+    {//back leg (right)
+        gTranslate(-0.2,-0.5,-0.3);
+        gRotate(-40,0,0,1);
+        create_leg_parts();
     }
-    gPop() ;
-    
-    
-    
-    gPush() ;
-    {
-        gTranslate(7,0,0) ;
-        setColor(vec4(1.0,1.0,0.0,1.0)) ;
-        gRotate(TIME*180/3.14159,0,1,0) ;
-        drawCone() ;
+    gPop();
+
+    gPush();
+    {//back leg (left)
+        gTranslate(-0.2,-0.5,0.3);
+        gRotate(30,0,0,1);
+        create_leg_parts();
     }
-    gPop() ;
-    
+    gPop();
+
+    gPush();
+    {//front leg (right)
+        gTranslate(1.3,-0.5,-0.3);
+        gRotate(-40,0,0,1);
+        create_leg_parts();
+    }
+    gPop();
+
+    gPush();
+    {//front leg (left)
+        gTranslate(1.3,-0.5,0.3);
+        gRotate(30,0,0,1);
+        create_leg_parts();
+    }
+    gPop();
+
+    gPush();
+    {//back foot (right)
+        gTranslate(-0.2,-1,-0.3);
+        gRotate(45,0,0,1);
+        create_foot_part();
+    }
+    gPop();
+
+    gPush();
+    {//back foot (left)
+        gTranslate(0.1,-1,0.3);
+        gRotate(45,0,0,1);
+        create_foot_part();
+    }
+    gPop();
+
+    gPush();
+    {//front foot (right)
+        gTranslate(1.3,-1,-0.3);
+        gRotate(45,0,0,1);
+        create_foot_part();
+    }
+    gPop();
+
+    gPush();
+    {//front foot (left)
+        gTranslate(1.6,-1,0.3);
+        gRotate(45,0,0,1);
+        create_foot_part();
+    }
+    gPop();
+
+    gPush();
+    {
+        
+    }
+    gPop();
+
+    // ** Cat modling ends here **
     if( animFlag )
         window.requestAnimFrame(render);
 }
