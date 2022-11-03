@@ -388,6 +388,10 @@ function create_foot_part(){
     drawSphere();
 }
 
+function create_whisker_part(){
+    gScale(0.07,0.07,0.2);
+    drawCylinder();
+}
 
 function render() {
     
@@ -445,6 +449,7 @@ function render() {
     {// ** Cat modeling starts here **
         gPush();
         {//body left (lower body)
+            setColor(vec4(1,0.65,0,1));
             create_cat_body();
         }
         gPop();
@@ -521,11 +526,101 @@ function render() {
         gPop();
 
         gPush();
-        {
-            
+        {//neck
+            gTranslate(1.55,0.4,0);
+            gScale(0.3,0.3,0.3);
+            gRotate(90,1,0,0);
+            gRotate(-30,0,1,0);
+            drawCylinder();
         }
         gPop();
 
+        gPush();
+        {//head
+            gTranslate(1.9,0.9,0);
+            gScale(0.5,0.5,0.5);
+            drawSphere();
+        }
+        gPop();
+
+        gPush();
+        {//right ear
+            gTranslate(2,1.3,-0.3);
+            gRotate(-90,1,0,0);
+            gRotate(-30,1,0,0);
+            gScale(0.25,0.25,0.25);
+            drawCone();
+        }
+        gPop();
+
+        gPush();
+        {//left ear
+            gTranslate(2,1.3,0.3);
+            gRotate(-90,1,0,0);
+            gRotate(30,1,0,0);
+            gScale(0.25,0.25,0.25);
+            drawCone();
+        }
+        gPop();
+
+        gPush();
+        {//right eye
+           setColor(vec4(0,0,0,1));
+            gTranslate(2.25,1,-0.18);
+            gScale(0.1,0.1,0.1);
+            drawSphere();
+        }
+        gPop();
+
+        gPush();
+        {//left eye
+            setColor(vec4(0,0,0,1));
+            gTranslate(2.25,1,0.18);
+            gScale(0.1,0.1,0.1);
+            drawSphere();
+        }
+        gPop();
+
+        gPush();
+        {//nose
+            setColor(vec4(1,0.65,0,1));
+            gTranslate(2.4,0.8,0);
+            gScale(0.1,0.1,0.1);
+            drawSphere();
+
+        }
+        gPop();
+
+         gPush();
+         {//whiskers left upper
+            gTranslate(2.4,0.8,0.2);
+            create_whisker_part();
+         }
+         gPop();
+
+         gPush();
+         {//whiskers left bottom 
+           
+            gTranslate(2.4,0.675,0.2);
+            gRotate(45,1,0,0);
+            create_whisker_part();
+         }
+         gPop();
+
+         gPush();
+         {//whiskers right upper
+            gTranslate(2.4,0.8,-0.2);
+            create_whisker_part();
+         }
+         gPop();
+
+         gPush();
+         {//whiskers left upper
+            gTranslate(2.4,0.675,-0.2);
+            gRotate(-45,1,0,0);
+            create_whisker_part();
+         }
+         gPop();
     }
     gPop();
     // ** Cat modling ends here **
