@@ -377,13 +377,13 @@ function create_cat_body(){
 }
 
 function create_leg_parts(){
-    gScale(0.4,0.4,0.4);
+    gScale(0.3,0.4,0.3);
     gScale(0.5,1,0.5);
     drawSphere();
 }
 
 function create_foot_part(){
-    gScale(0.3,0.3,0.3);
+    gScale(0.2,0.3,0.2);
     gScale(0.5,1,0.5);
     drawSphere();
 }
@@ -464,7 +464,7 @@ function render() {
         gPush();
         {//back leg (right)
             gTranslate(-0.2,-0.5,-0.3);
-            gRotate(-40,0,0,1);
+            gRotate(30,0,0,1);
             create_leg_parts();
         }
         gPop();
@@ -479,8 +479,8 @@ function render() {
 
         gPush();
         {//front leg (right)
-            gTranslate(1.3,-0.5,-0.3);
-            gRotate(-40,0,0,1);
+            gTranslate(1.4,-0.5,-0.3);
+            gRotate(30,0,0,1);
             create_leg_parts();
         }
         gPop();
@@ -495,7 +495,7 @@ function render() {
 
         gPush();
         {//back foot (right)
-            gTranslate(-0.2,-1,-0.3);
+            gTranslate(0.1,-1,-0.3);
             gRotate(45,0,0,1);
             create_foot_part();
         }
@@ -511,7 +511,7 @@ function render() {
 
         gPush();
         {//front foot (right)
-            gTranslate(1.3,-1,-0.3);
+            gTranslate(1.6,-1,-0.3);
             gRotate(45,0,0,1);
             create_foot_part();
         }
@@ -619,6 +619,12 @@ function render() {
             gTranslate(2.4,0.675,-0.2);
             gRotate(-45,1,0,0);
             create_whisker_part();
+         }
+         gPop();
+
+         gPush();
+         {//tail
+
          }
          gPop();
     }
