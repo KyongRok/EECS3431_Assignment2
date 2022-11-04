@@ -1,5 +1,5 @@
 // Template code for A2 Fall 2021 -- DO NOT DELETE THIS LINE
-
+//open -a "Google Chrome" --args --allow-file-access-from-files
 var canvas;
 var gl;
 
@@ -181,12 +181,12 @@ function waitForTextures1(tex) {
     wtime = (new Date()).getTime() ;
     if( !tex.isTextureReady )
     {
-        console.log(wtime + " not ready yet") ;
+        //console.log(wtime + " not ready yet") ;
         waitForTextures1(tex) ;
     }
     else
     {
-        console.log("ready to render") ;
+        //console.log("ready to render") ;
         window.requestAnimFrame(render);
     }
                },5) ;
@@ -199,18 +199,18 @@ function waitForTextures(texs) {
                var n = 0 ;
                for ( var i = 0 ; i < texs.length ; i++ )
                {
-                    console.log("boo"+texs[i].image.src) ;
+                    //console.log("boo"+texs[i].image.src) ;
                     n = n+texs[i].isTextureReady ;
                }
                wtime = (new Date()).getTime() ;
                if( n != texs.length )
                {
-               console.log(wtime + " not ready yet") ;
+               //console.log(wtime + " not ready yet") ;
                waitForTextures(texs) ;
                }
                else
                {
-               console.log("ready to render") ;
+               //console.log("ready to render") ;
                window.requestAnimFrame(render);
                }
                },5) ;
