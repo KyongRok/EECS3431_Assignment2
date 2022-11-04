@@ -1,5 +1,6 @@
 // Template code for A2 Fall 2021 -- DO NOT DELETE THIS LINE
 //open -a "Google Chrome" --args --allow-file-access-from-files
+//chrome.exe --args --allow-access-from-files
 var canvas;
 var gl;
 
