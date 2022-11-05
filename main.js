@@ -50,6 +50,13 @@ var animFlag = false ;
 var prevTime = 0.0 ;
 var useTextures = 1 ;
 
+// **static variables starts here **
+var house_appear_timer = 0;
+var house_appear_counter = 0;
+var house_destroy_timer = 1;
+
+// **Static variables ends here **
+
 // ------------ Images for textures stuff --------------
 var texSize = 64;
 
@@ -394,6 +401,25 @@ function create_whisker_part(){
     drawCylinder();
 }
 
+function create_house(){
+    gPush();
+    {
+        gRotate(-90,1,0,0);
+        drawCylinder();
+    }
+    gPop();
+    
+    gPush();
+    {
+        gScale(0.7,0.7,0.7);
+        gTranslate(0,1,0);
+        gRotate(-90,1,0,0);
+        drawCone();
+    }  
+    gPop();
+}
+
+
 function render() {
     
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -631,6 +657,26 @@ function render() {
     }
     gPop();
     // ** Cat modling ends here **
+
+    // ** House starts here **
+    // appears every 5 second for 4 times.
+    if(TIME - house_appear_timer > 5){
+        gPush();
+        {
+            gTranslate(4,-0.5,0);
+            gScale(1.5,1.5,1.5);
+            create_house();
+        }
+        gPop();
+    }
+
+    if( TIME - house_destroy_timer > 8 && house_appear_counter <= 4){
+        house_appear_timer += 5*house_appear_counter;
+        house_destroy_timer += 8*house_appear_counter;
+        house_appear_counter++;
+    }
+
+    // ** House ends here **
     if( animFlag )
         window.requestAnimFrame(render);
 }
