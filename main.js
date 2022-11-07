@@ -41,6 +41,7 @@ var up = vec3(0.0, 1.0, 0.0);
 var RX = 0 ;
 var RY = 0 ;
 var RZ = 0 ;
+var cam_angle = 0;
 
 var MS = [] ; // The modeling matrix stack
 var TIME = 0.0 ; // Realtime
@@ -275,6 +276,10 @@ window.onload = function init() {
         RZ =  this.value;
         window.requestAnimFrame(render);
     };
+    document.getElementById("camera360flyi").oninput = function(){
+        cam_angle = this.value;
+        window.requestAnimationFrame(render);
+    }
     
     document.getElementById("animToggleButton").onclick = function() {
         if( animFlag ) {
@@ -424,7 +429,6 @@ function render() {
     
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     
-    
     eye = vec3(0,0,10);
     eye[1] = eye[1] + 0 ;
    
@@ -432,7 +436,7 @@ function render() {
     projectionMatrix = ortho(left, right, bottom, ytop, near, far);
     
     // set the camera matrix
-    viewMatrix = lookAt(eye, at , up);
+    viewMatrix = mult(lookAt(eye, at , up),rotate(cam_angle,[0,1,0]));
     
     // initialize the modeling matrix stack
     MS= [] ;
@@ -506,7 +510,7 @@ function render() {
 
         gPush();
         {//front leg (right)
-            gTranslate(1.4,-0.5,-0.3);
+            gTranslate(1.3,-0.5,-0.3);
             gRotate(30,0,0,1);
             create_leg_parts();
         }
