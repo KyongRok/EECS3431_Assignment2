@@ -15,7 +15,6 @@ var right = 6.0;
 var ytop =6.0;
 var bottom = -6.0;
 
-
 var lightPosition2 = vec4(100.0, 100.0, 100.0, 1.0 );
 var lightPosition = vec4(0.0, 0.0, 100.0, 1.0 );
 
@@ -52,9 +51,13 @@ var prevTime = 0.0 ;
 var useTextures = 1 ;
 
 // **static variables starts here **
-var house_appear_timer = 0;
-var house_appear_counter = 0;
-var house_destroy_timer = 1;
+var frame_per_second = 0; //frame per second
+var frame_time = 0; //frame per second
+var frame_two_second = 2; //frame per second
+
+var house_appear_timer = 0; //house animation
+var house_appear_counter = 0; //house animation
+var house_destroy_timer = 1; //house animation
 
 // **Static variables ends here **
 
@@ -426,6 +429,16 @@ function create_house(){
 
 
 function render() {
+    // ** code to display frames per second starts here **
+    if(TIME - frame_time >= 2){
+        console.log("FPS = " , frame_per_second/2);
+        frame_per_second = 0;
+        frame_time = frame_time +2;
+    }else{
+        frame_per_second++;
+    }
+
+    // ** code to display frames per second ends here **
     
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     
