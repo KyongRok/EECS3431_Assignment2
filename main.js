@@ -436,6 +436,7 @@ function render() {
     projectionMatrix = ortho(left, right, bottom, ytop, near, far);
     
     // set the camera matrix
+    //rotate view matrix 360 degrees by manipulating camera slider
     viewMatrix = mult(lookAt(eye, at , up),rotate(cam_angle,[0,1,0]));
     
     // initialize the modeling matrix stack
