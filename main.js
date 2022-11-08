@@ -279,10 +279,6 @@ window.onload = function init() {
         RZ =  this.value;
         window.requestAnimFrame(render);
     };
-    document.getElementById("camera360flyi").oninput = function(){
-        cam_angle = this.value;
-        window.requestAnimationFrame(render);
-    }
     
     document.getElementById("animToggleButton").onclick = function() {
         if( animFlag ) {
@@ -359,6 +355,11 @@ function drawCone() {
     Cone.draw() ;
 }
 
+function drawCam(setEye) {
+    //setMV();
+    viewMatrix = lookAt(setEye, at , up);
+}
+
 // Post multiples the modelview matrix with a translation matrix
 // and replaces the modelview matrix with the result
 function gTranslate(x,y,z) {
@@ -377,6 +378,27 @@ function gScale(sx,sy,sz) {
     modelMatrix = mult(modelMatrix,scale(sx,sy,sz)) ;
 }
 
+// Post multiples the modelview matrix with a translation matrix
+// and replaces the modelview matrix with the result
+function gCamTranslate(x,y,z) {
+    setMV();
+    viewMatrix = mult(viewMatrix,translate([x,y,z])) ;
+}
+
+// Post multiples the modelview matrix with a rotation matrix
+// and replaces the modelview matrix with the result
+function gCamRotate(theta,x,y,z) {
+    setMV() ;
+    viewMatrix = mult(viewMatrix,rotate(theta,[x,y,z])) ;
+}
+
+// Post multiples the modelview matrix with a scaling matrix
+// and replaces the modelview matrix with the result
+function gCamScale(sx,sy,sz) {
+    setMV() ;
+    viewMatrix = mult(viewMatrix,scale(sx,sy,sz)) ;
+}
+
 // Pops MS and stores the result as the current modelMatrix
 function gPop() {
     modelMatrix = MS.pop() ;
@@ -385,22 +407,6 @@ function gPop() {
 // pushes the current modelMatrix in the stack MS
 function gPush() {
     MS.push(modelMatrix) ;
-}
-
-
-function create_leg_parts(){
-    gScale(0.15,0.4,0.15);
-    drawSphere();
-}
-
-function create_foot_part(){
-    gScale(0.1,0.3,0.1);
-    drawSphere();
-}
-
-function create_whisker_part(){
-    gScale(0.07,0.07,0.2);
-    drawCylinder();
 }
 
 function create_house(){
@@ -445,7 +451,7 @@ function render() {
     // set the camera matrix
     //rotate view matrix 360 degrees by manipulating camera slider
     //viewMatrix = mult(lookAt(eye, at , up), rotate(cam_angle,[0,1,0]));
-    viewMatrix = lookAt(eye, at , up);
+    drawCam(eye);
     
     // initialize the modeling matrix stack
     MS= [] ;
@@ -485,200 +491,227 @@ function render() {
     gl.bindTexture(gl.TEXTURE_2D, textureArray[2].textureWebGL);
     gl.uniform1i(gl.getUniformLocation(program, "texture3"), 2);
     
+    gPush();{
+        gPush();{
+            gTranslate(0, 0.7, 0);
+            gScale(2.7, 2, 2.7);
+            drawCube();
+        }gPop();
+        gPush();{
+            gTranslate(0, 4.2,0);
+            gScale(4, 3, 4);
+            gRotate(90,-1,0,0);
+            drawCone();
+        }gPop();
+    }gPop();
+
     gPush();
-    {// ** Cat modeling starts here **
-        gTranslate(0.2, 0, 0);
-        gRotate(-16*Math.cos(2*TIME), 0, 1, 0);
-        gPush();{
+    {
+        gRotate(TIME*18, 0, 1, 0);
+        gTranslate(0, 0, 4.5);
+
+        //gCamRotate(-90, 0, 1, 0);
+        //gCamScale(1, 4, 4);
+
+        gPush();
+        {// ** Cat modeling starts here **
+            gTranslate(0.2, 0, 0);
+            gRotate(16*Math.cos(2*TIME), 0, -1, 0);
+
             gPush();{
-                gTranslate(1.7, 1, 0);
-                gRotate(10*Math.cos(2*TIME)-5, 0, 0, 1);
-                gTranslate(-1.7, -1, 0);
-                gPush();
-                {//head
-                    gTranslate(1.9,0.9,0);
-                    gScale(0.5,0.5,0.5);
-                    drawSphere();
-                }
-                gPop();
-                gPush();
-                {//right ear
-                    gTranslate(2,1.3,-0.3);
-                    gRotate(-90,1,0,0);
-                    gRotate(-30,1,0,0);
-                    gScale(0.25,0.25,0.25);
-                    drawCone();
-                }gPop();
-                gPush();
-                {//left ear
-                    gTranslate(2,1.3,0.3);
-                    gRotate(-90,1,0,0);
-                    gRotate(30,1,0,0);
-                    gScale(0.25,0.25,0.25);
-                    drawCone();
-                }gPop();
-
-                gPush();
-                {//right eye
-                setColor(vec4(0,0,0,1));
-                    gTranslate(2.25,1,-0.18);
-                    gScale(0.1,0.1,0.1);
-                    drawSphere();
-                }gPop();
-                gPush();
-                {//left eye
-                    setColor(vec4(0,0,0,1));
-                    gTranslate(2.25,1,0.18);
-                    gScale(0.1,0.1,0.1);
-                    drawSphere();
-                }gPop();
-
-                gPush();
-                {//nose
+                gPush();{
                     setColor(vec4(1,0.65,0,1));
-                    gTranslate(2.4,0.8,0);
-                    gScale(0.1,0.1,0.1);
-                    drawSphere();
-                }
-                gPop();
-                gPush();
-                {//whiskers left upper
-                    gTranslate(2.4,0.8,0.2);
-                    create_whisker_part();
-                }
-                gPop();
-                gPush();
-                {//whiskers left bottom         
-                    gTranslate(2.4,0.675,0.2);
-                    gRotate(45,1,0,0);
-                    create_whisker_part();
-                }gPop();
-                gPush();
-                {//whiskers right upper
-                gTranslate(2.4,0.8,-0.2);
-                create_whisker_part();
-                }
-                gPop();
-                gPush();
-                {//whiskers left upper
-                    gTranslate(2.4,0.675,-0.2);
-                    gRotate(-45,1,0,0);
-                    create_whisker_part();
-                }
-                gPop();
-            }gPop();
-
-            gPush();
-            {//neck
-                gTranslate(1.55,0.4,0);
-                gScale(0.3,0.3,0.3);
-                gRotate(90,1,0,0);
-                gRotate(-30,0,1,0);
-                drawCylinder();
-            }
-            gPop();
-
-            gPush();{
-                gPush();{//body right (upper body)
-                    gTranslate(1,0,0);
-                    gScale(0.7,0.5,0.5);
-                    drawSphere();
-                }gPop();
-                gPush();{
-                    gTranslate(2,1.5,0);
+                    gTranslate(1.7, 1, 0);
                     gRotate(10*Math.cos(2*TIME)-5, 0, 0, 1);
-                    gTranslate(-2,-1.5,0);
+                    gTranslate(-1.7, -1, 0);
+
                     gPush();
-                    {//front leg (right)
-                        gTranslate(1.5,-0.5,-0.3);
+                    {//head
+                        gTranslate(1.9,0.9,0);
+                        gScale(0.5,0.5,0.5);
+                        drawSphere();
+                    }
+                    gPop();
+                    gPush();
+                    {//right ear
+                        gTranslate(2,1.3,-0.3);
+                        gRotate(-90,1,0,0);
+                        gRotate(-30,1,0,0);
+                        gScale(0.25,0.25,0.25);
+                        drawCone();
+                    }gPop();
+                    gPush();
+                    {//left ear
+                        gTranslate(2,1.3,0.3);
+                        gRotate(-90,1,0,0);
+                        gRotate(30,1,0,0);
+                        gScale(0.25,0.25,0.25);
+                        drawCone();
+                    }gPop();
+
+                    setColor(vec4(0,0,0,1));
+                    gPush();
+                    {//right eye
+                        gTranslate(2.25,1,-0.18);
+                        gScale(0.1,0.1,0.1);
+                        drawSphere();
+                    }gPop();
+                    gPush();
+                    {//left eye
+                        gTranslate(2.25,1,0.18);
+                        gScale(0.1,0.1,0.1);
+                        drawSphere();
+                    }gPop();
+                    gPush();
+                    {//nose
+                        gTranslate(2.4,0.8,0);
+                        gScale(0.1,0.1,0.1);
+                        drawSphere();
+                    }
+                    gPop();
+                    setColor(vec4(0,0,0,1));
+                    gPush();
+                    {//whiskers left upper
+                        gTranslate(2.4,0.8,0.2);
+                        create_whisker_part();
+                    }
+                    gPop();
+                    gPush();
+                    {//whiskers left bottom         
+                        gTranslate(2.4,0.675,0.15);
+                        gRotate(45,1,0,0);
+                        create_whisker_part();
+                    }gPop();
+                    gPush();
+                    {//whiskers right upper
+                    gTranslate(2.4,0.8,-0.2);
+                    create_whisker_part();
+                    }
+                    gPop();
+                    gPush();
+                    {//whiskers right bottom
+                        gTranslate(2.4,0.675,-0.15);
+                        gRotate(-45,1,0,0);
+                        create_whisker_part();
+                    }
+                    gPop();
+                }gPop();
+
+                gPush();
+                {//neck
+                    setColor(vec4(1,0.65,0,1));
+                    gTranslate(1.55,0.4,0);
+                    gScale(0.3,0.3,0.3);
+                    gRotate(90,1,0,0);
+                    gRotate(-30,0,1,0);
+                    drawCylinder();
+                }
+                gPop();
+
+                setColor(vec4(1,0.65,0,1));
+                gPush();{
+                    gPush();{//body right (upper body)
+                        gTranslate(1,0,0);
+                        gScale(0.7,0.5,0.5);
+                        drawSphere();
+                    }gPop();
+                    gPush();{
+                        gTranslate(2,1.5,0);
+                        gRotate(10*Math.cos(2*TIME)-5, 0, 0, 1);
+                        gTranslate(-2,-1.5,0);
+                        gPush();
+                        {//front leg (right)
+                            gTranslate(1.5,-0.5,-0.3);
+                            gRotate(30,0,0,1);
+                            create_leg_parts();
+                        }
+                        gPop();
+                        gPush();
+                        {//front foot (right)
+                            gTranslate(1.8,-1,-0.3);
+                            gRotate(45,0,0,1);
+                            create_foot_part();
+                        }
+                        gPop();
+                    }gPop();
+                    gPush();{
+                        gTranslate(1.5,1.5,0);
+                        gRotate(10*Math.cos(2*TIME+10)-5, 0, 0, 1);
+                        gTranslate(-1.5,-1.5,0);
+                        gPush();
+                        {//front leg (left)
+                            gTranslate(1.5,-0.5,0.3);
+                            gRotate(30,0,0,1);
+                            create_leg_parts();
+                        }
+                        gPop();
+                        gPush();
+                        {//front foot (left)
+                            gTranslate(1.8,-1,0.3);
+                            gRotate(45,0,0,1);
+                            create_foot_part();
+                        }
+                        gPop();
+                    }gPop();
+                }gPop();
+            }gPop();
+
+            gTranslate(0.3, 0, 0);
+            gRotate(16*Math.cos(2*TIME), 0, 1, 0);
+            setColor(vec4(1,0.65,0,1));
+            gPush();{
+                gPush();
+                {//body left (lower body)
+                    gScale(0.7,0.5,0.6);
+                    drawSphere();
+                }
+                gPop();
+
+                gPush();{
+                    //left right seeing cat from the face
+                    gRotate(20*Math.cos(2*TIME)-20, 0, 0, 1);
+                    gPush();
+                    {//back leg (right)
+                        gTranslate(-0.2,-0.5,-0.25);
                         gRotate(30,0,0,1);
+                        gScale(2,1,2);
                         create_leg_parts();
                     }
                     gPop();
                     gPush();
-                    {//front foot (right)
-                        gTranslate(1.8,-1,-0.3);
+                    {//back foot (right)
+                        gTranslate(0.1,-1,-0.3);
                         gRotate(45,0,0,1);
                         create_foot_part();
                     }
                     gPop();
                 }gPop();
                 gPush();{
-                    gTranslate(1.5,1.5,0);
-                    gRotate(10*Math.cos(2*TIME+10)-5, 0, 0, 1);
-                    gTranslate(-1.5,-1.5,0);
+                    gRotate(20*Math.cos(2*TIME+10)-20, 0, 0, 1);
                     gPush();
-                    {//front leg (left)
-                        gTranslate(1.5,-0.5,0.3);
+                    {//back leg (left)
+                        gTranslate(-0.2,-0.5,0.25);
                         gRotate(30,0,0,1);
+                        gScale(2,1,2);
                         create_leg_parts();
                     }
                     gPop();
                     gPush();
-                    {//front foot (left)
-                        gTranslate(1.8,-1,0.3);
+                    {//back foot (left)
+                        gTranslate(0.1,-1,0.3);
                         gRotate(45,0,0,1);
                         create_foot_part();
                     }
                     gPop();
                 }gPop();
-            }gPop();
-        }gPop();
 
-        gTranslate(0.2, 0, 0);
-        gRotate(16*Math.cos(2*TIME), 0, 1, 0);
-        gPush();{
-            gPush();
-            {//body left (lower body)
-                setColor(vec4(1,0.65,0,1));
-                gScale(0.7,0.5,0.6);
-                drawSphere();
-            }
-            gPop();
-
-            gPush();{
-                //left right seeing cat from the face
-                gRotate(20*Math.cos(2*TIME)-20, 0, 0, 1);
-                gPush();
-                {//back leg (right)
-                    gTranslate(-0.2,-0.5,-0.25);
-                    gRotate(30,0,0,1);
-                    gScale(2,1,2);
-                    create_leg_parts();
-                }
-                gPop();
-                gPush();
-                {//back foot (right)
-                    gTranslate(0.1,-1,-0.3);
-                    gRotate(45,0,0,1);
-                    create_foot_part();
-                }
-                gPop();
+                gPush();{//tail
+                    gTranslate(-0.5,0,0);
+                    tail();
+                }gPop();
             }gPop();
-            gPush();{
-                gRotate(20*Math.cos(2*TIME+10)-20, 0, 0, 1);
-                gPush();
-                {//back leg (left)
-                    gTranslate(-0.2,-0.5,0.25);
-                    gRotate(30,0,0,1);
-                    gScale(2,1,2);
-                    create_leg_parts();
-                }
-                gPop();
-                gPush();
-                {//back foot (left)
-                    gTranslate(0.1,-1,0.3);
-                    gRotate(45,0,0,1);
-                    create_foot_part();
-                }
-                gPop();
-            }gPop();
-
-            gPush();{//tail
-                gTranslate(-0.5,0,0);
-                tail();
-            }gPop();
-        }gPop();
+        }
+        gPop();
     }
     gPop();
     // ** Cat modling ends here **
@@ -704,13 +737,25 @@ function render() {
     function tail(){
         for(let i = 1; i <= 5; i++){
             gTranslate(0,0.15,0);
-            gRotate(30*Math.cos(TIME+i)+5, 0, 0, 1);
+            gRotate(20*Math.cos(2*TIME+i)+20, 0, 0, 1);
             gTranslate(0,0.15,0);
             gPush();{
                 gScale(0.1,0.3,0.1);
                 drawSphere();
             }gPop();
         }
+    }
+    function create_leg_parts(){
+        gScale(0.15,0.4,0.15);
+        drawSphere();
+    }
+    function create_foot_part(){
+        gScale(0.1,0.3,0.1);
+        drawSphere();
+    }
+    function create_whisker_part(){
+        gScale(0.05,0.05,0.2);
+        drawCylinder();
     }
 
     // ** House ends here **
