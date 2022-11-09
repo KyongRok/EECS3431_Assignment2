@@ -1,6 +1,7 @@
 // Template code for A2 Fall 2021 -- DO NOT DELETE THIS LINE
 //open -a "Google Chrome" --args --allow-file-access-from-files
 //chrome.exe --args --allow-access-from-files
+//grass image source: https://opengameart.org/content/grass-1
 var canvas;
 var gl;
 
@@ -136,7 +137,7 @@ function loadImageTexture(tex, image) {
 function initTextures() {
     
     textureArray.push({}) ;
-    loadFileTexture(textureArray[textureArray.length-1],"sunset.bmp") ;
+    loadFileTexture(textureArray[textureArray.length-1],"cubetexture.png") ;
     
     textureArray.push({}) ;
     loadFileTexture(textureArray[textureArray.length-1],"cubetexture.png") ;
@@ -480,10 +481,10 @@ function render() {
         prevTime = curTime ;
     }
 
-    if(Math.cos(TIME/2)>=0){
-        gCamScale(3, 3, 1);
-        gCamRotate(TIME*18+10, 0, -1, 0);
-    }
+    // if(Math.cos(TIME/2)>=0){
+    //     gCamScale(3, 3, 1);
+    //     gCamRotate(TIME*18+10, 0, -1, 0);
+    // }
     
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, textureArray[0].textureWebGL);
@@ -497,6 +498,16 @@ function render() {
     gl.bindTexture(gl.TEXTURE_2D, textureArray[2].textureWebGL);
     gl.uniform1i(gl.getUniformLocation(program, "texture3"), 2);
     
+
+    gPush();
+    {//floor
+        gTranslate(0,-4.2,0);
+        gScale(8,3,8);
+        drawCube();
+    }
+    gPop();
+
+
     gPush();{
         gPush();{
             gTranslate(0, 0.7, 0);
