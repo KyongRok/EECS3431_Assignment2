@@ -50,7 +50,7 @@ var animFlag = false ;
 var prevTime = 0.0 ;
 var useTextures = 1 ;
 
-// **static variables starts here **
+// **initial variables starts here **
 var frame_per_second = 0; //frame per second
 var frame_time = 0; //frame per second
 var frame_two_second = 2; //frame per second
@@ -58,6 +58,8 @@ var frame_two_second = 2; //frame per second
 var house_appear_timer = 0; //house animation
 var house_appear_counter = 0; //house animation
 var house_destroy_timer = 1; //house animation
+
+var cam_switch_curr = 0;
 
 // **Static variables ends here **
 
@@ -355,7 +357,7 @@ function drawCone() {
     Cone.draw() ;
 }
 
-function drawCam(setEye) {
+function resetCam(setEye) {
     //setMV();
     viewMatrix = lookAt(setEye, at , up);
 }
@@ -451,7 +453,7 @@ function render() {
     // set the camera matrix
     //rotate view matrix 360 degrees by manipulating camera slider
     //viewMatrix = mult(lookAt(eye, at , up), rotate(cam_angle,[0,1,0]));
-    drawCam(eye);
+    resetCam(eye);
     
     // initialize the modeling matrix stack
     MS= [] ;
@@ -478,6 +480,10 @@ function render() {
         prevTime = curTime ;
     }
 
+    if(Math.cos(TIME/2)>=0){
+        gCamScale(3, 3, 1);
+        gCamRotate(TIME*18+10, 0, -1, 0);
+    }
     
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, textureArray[0].textureWebGL);
@@ -732,6 +738,7 @@ function render() {
         house_appear_timer += 5*house_appear_counter;
         house_destroy_timer += 8*house_appear_counter;
         house_appear_counter++;
+        //resetCam();
     }
 
     function tail(){
