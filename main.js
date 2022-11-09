@@ -724,7 +724,7 @@ function render() {
 
     // ** House starts here **
     // appears every 5 second for 4 times.
-    if(TIME - house_appear_timer > 5){
+    if(TIME - house_appear_timer > 5 && house_appear_counter <= 4){
         gPush();
         {
             gTranslate(4,-0.5,0);
