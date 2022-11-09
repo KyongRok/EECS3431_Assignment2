@@ -137,7 +137,7 @@ function loadImageTexture(tex, image) {
 function initTextures() {
     
     textureArray.push({}) ;
-    loadFileTexture(textureArray[textureArray.length-1],"cubetexture.png") ;
+    loadFileTexture(textureArray[textureArray.length-1],"grass.png") ;
     
     textureArray.push({}) ;
     loadFileTexture(textureArray[textureArray.length-1],"cubetexture.png") ;
@@ -481,10 +481,10 @@ function render() {
         prevTime = curTime ;
     }
 
-    // if(Math.cos(TIME/2)>=0){
-    //     gCamScale(3, 3, 1);
-    //     gCamRotate(TIME*18+10, 0, -1, 0);
-    // }
+    if(Math.cos(TIME/2)>=0){
+        gCamScale(3, 3, 1);
+        gCamRotate(TIME*18+10, 0, -1, 0);
+    }
     
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, textureArray[0].textureWebGL);
