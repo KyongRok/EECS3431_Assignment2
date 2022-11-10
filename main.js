@@ -1,7 +1,8 @@
 // Template code for A2 Fall 2021 -- DO NOT DELETE THIS LINE
 //open -a "Google Chrome" --args --allow-file-access-from-files
-//chrome.exe --args --allow-access-from-files
+//chrome --allow-access-from-files
 //grass image source: https://opengameart.org/content/grass-1
+//brick image source: https://opengameart.org/content/brick-texture
 var canvas;
 var gl;
 
@@ -140,7 +141,7 @@ function initTextures() {
     loadFileTexture(textureArray[textureArray.length-1],"grass.png") ;
     
     textureArray.push({}) ;
-    loadFileTexture(textureArray[textureArray.length-1],"cubetexture.png") ;
+    loadFileTexture(textureArray[textureArray.length-1],"bricks2") ;
     
     textureArray.push({}) ;
     loadImageTexture(textureArray[textureArray.length-1],image2) ;
@@ -486,29 +487,34 @@ function render() {
         gCamRotate(TIME*18+10, 0, -1, 0);
     }
     
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, textureArray[0].textureWebGL);
-    gl.uniform1i(gl.getUniformLocation(program, "texture1"), 0);
-    
-    gl.activeTexture(gl.TEXTURE1);
-    gl.bindTexture(gl.TEXTURE_2D, textureArray[1].textureWebGL);
-    gl.uniform1i(gl.getUniformLocation(program, "texture2"), 1);
-    
-    gl.activeTexture(gl.TEXTURE2);
-    gl.bindTexture(gl.TEXTURE_2D, textureArray[2].textureWebGL);
-    gl.uniform1i(gl.getUniformLocation(program, "texture3"), 2);
-    
+    // ** Texture stuff **
+    // gl.activeTexture(gl.TEXTURE0);
+    // gl.bindTexture(gl.TEXTURE_2D, textureArray[0].textureWebGL);
+    // gl.uniform1i(gl.getUniformLocation(program, "texture1"), 0);
 
+    // gl.activeTexture(gl.TEXTURE1);
+    // gl.bindTexture(gl.TEXTURE_2D, textureArray[1].textureWebGL);
+    // gl.uniform1i(gl.getUniformLocation(program, "texture2"), 1);
+
+    // gl.activeTexture(gl.TEXTURE2);
+    // gl.bindTexture(gl.TEXTURE_2D, textureArray[2].textureWebGL);
+    // gl.uniform1i(gl.getUniformLocation(program, "texture3"), 2);
+    
+    // ** Texture stuff end here **
     gPush();
     {//floor
-        gTranslate(0,-4.2,0);
-        gScale(8,3,8);
-        drawCube();
+        gPush();{
+            setColor(vec4(0,1,0,1));
+            gTranslate(0,-4.2,0);
+            gScale(8,3,8);
+            drawCube();
+        }
+        gPop();
     }
     gPop();
-
-
+    
     gPush();{
+        setColor(vec4(1,1,1,1))
         gPush();{
             gTranslate(0, 0.7, 0);
             gScale(2.7, 2, 2.7);
@@ -735,21 +741,31 @@ function render() {
 
     // ** House starts here **
     // appears every 5 second for 4 times.
-    if(TIME - house_appear_timer > 5 && house_appear_counter <= 4){
-        gPush();
-        {
-            gTranslate(4,-0.5,0);
-            gScale(1.5,1.5,1.5);
-            create_house();
-        }
-        gPop();
-    }
 
-    if( TIME - house_destroy_timer > 8 && house_appear_counter <= 4){
+    if( TIME - house_destroy_timer >= 8 && house_appear_counter < 4){
         house_appear_timer += 5*house_appear_counter;
         house_destroy_timer += 8*house_appear_counter;
         house_appear_counter++;
         //resetCam();
+    }
+
+    if(TIME - house_appear_timer > 5 && house_appear_counter < 4){
+        gPush();
+        {
+            setColor(vec4(0,1,0,1));
+            if(house_appear_counter == 0){
+                gTranslate(-4,-0.5,0);
+            }else if(house_appear_counter == 1){
+                gTranslate(-4,-0.5,0);
+            }else if(house_appear_counter == 2){
+                gTranslate(2,-0.5,4);
+            }else{
+                gTranslate(-3,-0.5,4);
+            }
+            gScale(1.5,1.5,1.5);
+            create_house();
+        }
+        gPop();
     }
 
     function tail(){
