@@ -10,6 +10,7 @@
 //red color1 image source: https://opengameart.org/node/8857
 //red color2 image source: https://opengameart.org/sites/default/files/Velvet_S.jpg
 //red color3 image source: https://opengameart.org/sites/default/files/Blood%20Stone%20CH16.png
+//dark marble image source: https://opengameart.org/content/dark-marble-seamless
 var canvas;
 var gl;
 
@@ -155,8 +156,15 @@ function initTextures() {
 
     textureArray.push({});
     loadFileTexture(textureArray[textureArray.length-1],"DSCF0499.png");
-    
-    
+
+    textureArray.push({});
+    loadFileTexture(textureArray[textureArray.length-1], "roof.png");
+
+    textureArray.push({});
+    loadFileTexture(textureArray[textureArray.length-1] ,"wood 2.png");
+
+    textureArray.push({});
+    loadFileTexture(textureArray[textureArray.length-1],"Marble_001.png");
 }
 
 
@@ -514,7 +522,7 @@ function render() {
         gPush();
         {   
             useTexture(3,gl);
-            gTranslate(1.25,1,2.25);
+            gTranslate(1.35,1,2.25);
             gScale(0.75,0.75,0.5);
             drawCube();
         }
@@ -523,7 +531,7 @@ function render() {
         gPush();
         {
             useTexture(3,gl);
-            gTranslate(-1.25,1,2.25);
+            gTranslate(-1.35,1,2.25);
             gScale(0.75,0.75,0.5);
             drawCube();
         }
@@ -545,19 +553,46 @@ function render() {
     gPop();
     
     gPush();{
-        useTexture(2, gl);
         setColor(vec4(1,1,1,1))
-        gPush();{
+        gPush();{//body of house
+            useTexture(2, gl);
             gTranslate(0, 0.7, 0);
             gScale(2.7, 2, 2.7);
             drawCube();
         }gPop();
-        gPush();{
+        gPush();{//roof
+            useTexture(4,gl);
             gTranslate(0, 4.2,0);
             gScale(4, 3, 4);
             gRotate(90,-1,0,0);
             drawCone();
         }gPop();
+        gPush();
+        {//window
+            useTexture(3,gl);
+            gTranslate(0,4,2);
+            gRotate(-4545,1,0,0);
+            gScale(0.5,0.5,0.2);
+            drawCube();
+        }
+        gPop();
+        gPush();
+        {//door
+            useTexture(5,gl);
+            gTranslate(0,-0.2,2.25);
+            gScale(0.5,1,0.5);
+            drawCube();
+        }
+        gPop();
+        gPush();
+        {//door handle
+            setColor(vec4(0,0,0,1));
+            useTexture(6,gl);
+            gTranslate(0.2,-0.2,2.7);
+            gScale(0.2,0.2,0.2);
+            drawSphere();
+        }
+        gPop();
     }gPop();
 
     gPush();
