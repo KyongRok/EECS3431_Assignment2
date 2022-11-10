@@ -520,18 +520,9 @@ function render() {
     gPush();
     {//window
         gPush();
-        {   
-            useTexture(3,gl);
-            gTranslate(1.35,1,2.25);
-            gScale(0.75,0.75,0.5);
-            drawCube();
-        }
-        gPop();
-
-        gPush();
         {
             useTexture(3,gl);
-            gTranslate(-1.35,1,2.25);
+            gTranslate(-1.8,1,2.25);
             gScale(0.75,0.75,0.5);
             drawCube();
         }
@@ -568,7 +559,7 @@ function render() {
             drawCone();
         }gPop();
         gPush();
-        {//window
+        {//window on roof
             useTexture(3,gl);
             gTranslate(0,4,2);
             gRotate(-4545,1,0,0);
@@ -579,8 +570,8 @@ function render() {
         gPush();
         {//door
             useTexture(5,gl);
-            gTranslate(0,-0.2,2.25);
-            gScale(0.5,1,0.5);
+            gTranslate(0,0.2,2.25);
+            gScale(0.8,1.4,0.5);
             drawCube();
         }
         gPop();
@@ -588,9 +579,36 @@ function render() {
         {//door handle
             setColor(vec4(0,0,0,1));
             useTexture(6,gl);
-            gTranslate(0.2,-0.2,2.7);
+            gTranslate(0.3,-0.1,2.7);
             gScale(0.2,0.2,0.2);
             drawSphere();
+        }
+        gPop();
+
+        gPush();
+        {//window on right side
+            useTexture(3,gl);
+            gTranslate(2,1,1);
+            gScale(0.75,0.75,0.75);
+            drawCube();
+        }
+        gPop();
+
+        gPush();
+        {//window on left
+            useTexture(3,gl);
+            gTranslate(-2,1,-1);
+            gScale(0.75,0.75,0.75);
+            drawCube();
+        }
+        gPop();
+
+        gPush();
+        {//window on back
+            useTexture(3,gl);
+            gTranslate(-1,1,-2);
+            gScale(0.75,0.75,0.75);
+            drawCube();
         }
         gPop();
     }gPop();
