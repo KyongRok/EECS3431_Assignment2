@@ -144,10 +144,10 @@ function initTextures() {
     loadFileTexture(textureArray[textureArray.length-1],"grass.png") ;
 
     textureArray.push({}) ;
-    loadImageTexture(textureArray[textureArray.length-1],"4KCheetaSeemless.jpg") ;
+    loadImageTexture(textureArray[textureArray.length-1],"4KCheetaSeemless.png") ;
     
     textureArray.push({}) ;
-    loadFileTexture(textureArray[textureArray.length-1],"bricks2.jpg") ;
+    loadFileTexture(textureArray[textureArray.length-1],"bricks2.png") ;
     
     
 }
