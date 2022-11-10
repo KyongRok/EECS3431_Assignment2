@@ -5,7 +5,7 @@
 //brick image source: https://opengameart.org/content/brick-texture
 //wood image source: https://opengameart.org/content/wood-texture-tiles
 //window image source: https://opengameart.org/content/brown-plastic-window-with-matted-glass
-//fur image source: https://opengameart.org/content/4k-seamless-textures-public-domain
+//fur image source: https://www.dreamstime.com/photos-images/cat-fur.html
 //roof image source: https://opengameart.org/content/medieval-wooden-roof-woodenroofkutejnikovcolorpng
 //red color1 image source: https://opengameart.org/node/8857
 //red color2 image source: https://opengameart.org/sites/default/files/Velvet_S.jpg
@@ -149,7 +149,7 @@ function initTextures() {
     loadFileTexture(textureArray[textureArray.length-1],"grass.png") ;
 
     textureArray.push({}) ;
-    loadFileTexture(textureArray[textureArray.length-1],"fur.png") ;
+    loadFileTexture(textureArray[textureArray.length-1],"cat-fur-texture-13699006.jpg") ;
     
     textureArray.push({}) ;
     loadFileTexture(textureArray[textureArray.length-1],"bricks2.png") ;
@@ -165,6 +165,13 @@ function initTextures() {
 
     textureArray.push({});
     loadFileTexture(textureArray[textureArray.length-1],"Marble_001.png");
+
+    textureArray.push({});
+    loadFileTexture(textureArray[textureArray.length-1],"Velvet.png");
+    textureArray.push({});
+    loadFileTexture(textureArray[textureArray.length-1],"Blood Stone CH16.png");
+    textureArray.push({});
+    loadFileTexture(textureArray[textureArray.length-1],"light004_gm.png");
 }
 
 
@@ -509,13 +516,48 @@ function create_exlosion(){
             drawCone();
         }
         gPop();
-
-
-
     }
     gPop();
-    
-    
+}
+
+function tail(){
+    for(let i = 1; i <= 5; i++){
+        gTranslate(0,0.15,0);
+        gRotate(20*Math.cos(2*TIME+i)+20, 0, 0, 1);
+        gTranslate(0,0.15,0);
+        gPush();{
+            gScale(0.1,0.3,0.1);
+            drawSphere();
+        }gPop();
+    }
+}
+function create_leg_parts(){
+    gScale(0.15,0.4,0.15);
+    drawSphere();
+}
+function create_foot_part(){
+    gScale(0.1,0.3,0.1);
+    drawSphere();
+}
+function create_whisker_part(){
+    gScale(0.05,0.05,0.2);
+    drawCylinder();
+}
+
+function useTexture(i, gl){
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, textureArray[i].textureWebGL);
+    gl.uniform1i(gl.getUniformLocation(program, "texture" + (i + 1)), 0);
+}
+
+function redTexture(gl){
+    if(Math.cos(TIME*10)>=0.4){
+        useTexture(7, gl);
+    }else if(Math.cos(TIME*2)<0.4 && Math.cos(TIME*2)>=-0.4){
+        useTexture(8, gl);
+    }else{
+        useTexture(9, gl);
+    }
 }
 
 
@@ -572,8 +614,10 @@ function render() {
     if(Math.cos(TIME/2)>=0){
         gCamScale(3, 3, 1);
         gCamRotate(TIME*18+10, 0, -1, 0);
+    }else{
+        gCamTranslate(0, -2, 0);
     }
-    
+
     gPush();
     {//window
         gPush();
@@ -593,7 +637,7 @@ function render() {
             useTexture(0, gl);
             setColor(vec4(0,1,0,1));
             gTranslate(0,-4.2,0);
-            gScale(8,3,8);
+            gScale(6,3,6);
             drawCube();
         }
         gPop();
@@ -712,18 +756,33 @@ function render() {
                         drawCone();
                     }gPop();
 
+                    redTexture(gl);
                     setColor(vec4(0,0,0,1));
                     gPush();
                     {//right eye
                         gTranslate(2.25,1,-0.18);
                         gScale(0.1,0.1,0.1);
                         drawSphere();
+                        if(TIME - weed_destroy_timer <= 8 && TIME - weed_appear_timer < 5 && weed_appear_counter > 1 ){
+                            gPush();{
+                                gTranslate(100, 0, 0);
+                                gScale(100, 0.5, 0.5);
+                                drawCube();
+                            }gPop();
+                        }
                     }gPop();
                     gPush();
                     {//left eye
                         gTranslate(2.25,1,0.18);
                         gScale(0.1,0.1,0.1);
                         drawSphere();
+                        if(TIME - weed_destroy_timer <= 8 && TIME - weed_appear_timer < 5 && weed_appear_counter > 1 ){
+                            gPush();{
+                                gTranslate(100, 0, 0);
+                                gScale(100, 0.5, 0.5);
+                                drawCube();
+                            }gPop();
+                        }
                     }gPop();
                     gPush();
                     {//nose
@@ -732,6 +791,7 @@ function render() {
                         drawSphere();
                     }
                     gPop();
+                    useTexture(6,gl);
                     setColor(vec4(0,0,0,1));
                     gPush();
                     {//whiskers left upper
@@ -762,6 +822,7 @@ function render() {
 
                 gPush();
                 {//neck
+                    useTexture(1, gl);
                     setColor(vec4(1,0.65,0,1));
                     gTranslate(1.55,0.4,0);
                     gScale(0.3,0.3,0.3);
@@ -903,7 +964,7 @@ function render() {
             }else{
                 gTranslate(-3,0,4);
             }
-            //useTexture(0, gl);
+            redTexture(gl);
             create_exlosion();
         }
         gPop();
@@ -930,35 +991,6 @@ function render() {
     }
     // ** weed ends here **
 
-    function tail(){
-        for(let i = 1; i <= 5; i++){
-            gTranslate(0,0.15,0);
-            gRotate(20*Math.cos(2*TIME+i)+20, 0, 0, 1);
-            gTranslate(0,0.15,0);
-            gPush();{
-                gScale(0.1,0.3,0.1);
-                drawSphere();
-            }gPop();
-        }
-    }
-    function create_leg_parts(){
-        gScale(0.15,0.4,0.15);
-        drawSphere();
-    }
-    function create_foot_part(){
-        gScale(0.1,0.3,0.1);
-        drawSphere();
-    }
-    function create_whisker_part(){
-        gScale(0.05,0.05,0.2);
-        drawCylinder();
-    }
-
-    function useTexture(i, gl){
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, textureArray[i].textureWebGL);
-        gl.uniform1i(gl.getUniformLocation(program, "texture" + (i + 1)), 0);
-    }
     if( animFlag )
         window.requestAnimFrame(render);
 }
