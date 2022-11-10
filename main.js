@@ -899,7 +899,7 @@ function render() {
             }else if(weed_appear_counter == 2){
                 gTranslate(-4,0,0);
             }else if(weed_appear_counter == 3){
-                gTranslate(2,0,4);
+                gTranslate(4,0,4);
             }else{
                 gTranslate(-3,0,4);
             }
@@ -918,7 +918,7 @@ function render() {
             }else if(weed_appear_counter == 1){
                 gTranslate(-4,-0.5,0);
             }else if(weed_appear_counter == 2){
-                gTranslate(2,-0.5,4);
+                gTranslate(4,-0.5,4);
             }else{
                 gTranslate(-3,-0.5,4);
             }
