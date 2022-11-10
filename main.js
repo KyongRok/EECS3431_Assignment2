@@ -3,6 +3,9 @@
 //chrome --allow-access-from-files
 //grass image source: https://opengameart.org/content/grass-1
 //brick image source: https://opengameart.org/content/brick-texture
+//wood image source: https://opengameart.org/content/wood-texture-tiles
+//window image source: https://opengameart.org/content/brown-plastic-window-with-matted-glass
+//fur image source:https://opengameart.org/content/4k-seamless-textures-public-domain
 var canvas;
 var gl;
 
