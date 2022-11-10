@@ -491,17 +491,17 @@ function render() {
     }
     
     // ** Texture stuff **
-    // gl.activeTexture(gl.TEXTURE0);
-    // gl.bindTexture(gl.TEXTURE_2D, textureArray[0].textureWebGL);
-    // gl.uniform1i(gl.getUniformLocation(program, "texture1"), 0);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, textureArray[0].textureWebGL);
+    gl.uniform1i(gl.getUniformLocation(program, "texture1"), 0);
 
-    // gl.activeTexture(gl.TEXTURE1);
-    // gl.bindTexture(gl.TEXTURE_2D, textureArray[1].textureWebGL);
-    // gl.uniform1i(gl.getUniformLocation(program, "texture2"), 1);
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_2D, textureArray[1].textureWebGL);
+    gl.uniform1i(gl.getUniformLocation(program, "texture2"), 1);
 
-    // gl.activeTexture(gl.TEXTURE2);
-    // gl.bindTexture(gl.TEXTURE_2D, textureArray[2].textureWebGL);
-    // gl.uniform1i(gl.getUniformLocation(program, "texture3"), 2);
+    gl.activeTexture(gl.TEXTURE2);
+    gl.bindTexture(gl.TEXTURE_2D, textureArray[2].textureWebGL);
+    gl.uniform1i(gl.getUniformLocation(program, "texture3"), 2);
     
     // ** Texture stuff end here **
     gPush();
