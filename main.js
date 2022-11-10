@@ -1,16 +1,7 @@
 // Template code for A2 Fall 2021 -- DO NOT DELETE THIS LINE
 //open -a "Google Chrome" --args --allow-file-access-from-files
 //chrome --allow-access-from-files
-//grass image source: https://opengameart.org/content/grass-1
-//brick image source: https://opengameart.org/content/brick-texture
-//wood image source: https://opengameart.org/content/wood-texture-tiles
-//window image source: https://opengameart.org/content/brown-plastic-window-with-matted-glass
-//fur image source: https://www.dreamstime.com/photos-images/cat-fur.html
-//roof image source: https://opengameart.org/content/medieval-wooden-roof-woodenroofkutejnikovcolorpng
-//red color1 image source: https://opengameart.org/node/8857
-//red color2 image source: https://opengameart.org/sites/default/files/Velvet_S.jpg
-//red color3 image source: https://opengameart.org/sites/default/files/Blood%20Stone%20CH16.png
-//dark marble image source: https://opengameart.org/content/dark-marble-seamless
+
 var canvas;
 var gl;
 
