@@ -5,7 +5,11 @@
 //brick image source: https://opengameart.org/content/brick-texture
 //wood image source: https://opengameart.org/content/wood-texture-tiles
 //window image source: https://opengameart.org/content/brown-plastic-window-with-matted-glass
-//fur image source:https://opengameart.org/content/4k-seamless-textures-public-domain
+//fur image source: https://opengameart.org/content/4k-seamless-textures-public-domain
+//roof image source: https://opengameart.org/content/medieval-wooden-roof-woodenroofkutejnikovcolorpng
+//red color1 image source: https://opengameart.org/node/8857
+//red color2 image source: https://opengameart.org/sites/default/files/Velvet_S.jpg
+//red color3 image source: https://opengameart.org/sites/default/files/Blood%20Stone%20CH16.png
 var canvas;
 var gl;
 
@@ -795,7 +799,7 @@ function render() {
         gPop();
     }
     // ** weed ends here **
-    
+
     function tail(){
         for(let i = 1; i <= 5; i++){
             gTranslate(0,0.15,0);
