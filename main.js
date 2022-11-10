@@ -60,9 +60,9 @@ var frame_per_second = 0; //frame per second
 var frame_time = 0; //frame per second
 var frame_two_second = 2; //frame per second
 
-var house_appear_timer = 0; //house animation
-var house_appear_counter = 0; //house animation
-var house_destroy_timer = 1; //house animation
+var weed_appear_timer = 0; //weed animation
+var weed_appear_counter = 0; //weed animation
+var weed_destroy_timer = 1; //weed animation
 
 var cam_switch_curr = 0;
 
@@ -148,6 +148,9 @@ function initTextures() {
     
     textureArray.push({}) ;
     loadFileTexture(textureArray[textureArray.length-1],"bricks2.png") ;
+
+    textureArray.push({});
+    loadFileTexture(textureArray[textureArray.length-1],"DSCF0499.png");
     
     
 }
@@ -416,21 +419,33 @@ function gPush() {
     MS.push(modelMatrix) ;
 }
 
-function create_house(){
+function create_weed(){
+    gScale(0.9,0.9,0.9);
     gPush();
     {
-        gRotate(-90,1,0,0);
-        drawCylinder();
-    }
-    gPop();
-    
-    gPush();
-    {   
-        gScale(0.7,0.7,0.7);
-        gTranslate(0,1,0);
+        gScale(0.8,2,0.8);
+        gTranslate(0,0,0);
         gRotate(-90,1,0,0);
         drawCone();
-    }  
+    }
+    gPop();
+
+    gPush();
+    {
+        gScale(0.4,1,0.4);
+        gTranslate(1,0,0);
+        gRotate(-90,1,0,0);
+        drawCone();
+    }
+    gPop();
+
+    gPush();
+    {
+        gScale(0.3,0.8,0.3);
+        gTranslate(-2,-0.2,0);
+        gRotate(-90,1,0,0);
+        drawCone();
+    }
     gPop();
 }
 
@@ -490,6 +505,28 @@ function render() {
         gCamRotate(TIME*18+10, 0, -1, 0);
     }
     
+    gPush();
+    {//window
+        gPush();
+        {   
+            useTexture(3,gl);
+            gTranslate(1.25,1,2.25);
+            gScale(0.75,0.75,0.5);
+            drawCube();
+        }
+        gPop();
+
+        gPush();
+        {
+            useTexture(3,gl);
+            gTranslate(-1.25,1,2.25);
+            gScale(0.75,0.75,0.5);
+            drawCube();
+        }
+        gPop();
+    }
+    gPop();
+
     gPush();
     {//floor
         gPush();{
@@ -728,32 +765,32 @@ function render() {
     gPop();
     // ** Cat modling ends here **
 
-    // ** House starts here **
+    // ** Weed starts here **
     // appears every 5 second for 3 times.
 
-    if( TIME - house_destroy_timer >= 8 && house_appear_counter < 4){
-        house_appear_timer += 5*house_appear_counter;
-        house_destroy_timer += 8*house_appear_counter;
-        house_appear_counter++;
+    if( TIME - weed_destroy_timer >= 8 && weed_appear_counter < 4){
+        weed_appear_timer += 5*weed_appear_counter;
+        weed_destroy_timer += 8*weed_appear_counter;
+        weed_appear_counter++;
         //resetCam();
     }
 
-    if(TIME - house_appear_timer > 5 && house_appear_counter < 4){
+    if(TIME - weed_appear_timer > 5 && weed_appear_counter < 4){
         gPush();
         {
             setColor(vec4(0,1,0,1));
-            if(house_appear_counter == 0){
+            if(weed_appear_counter == 0){
                 gTranslate(-4,-0.5,0);
-            }else if(house_appear_counter == 1){
+            }else if(weed_appear_counter == 1){
                 gTranslate(-4,-0.5,0);
-            }else if(house_appear_counter == 2){
+            }else if(weed_appear_counter == 2){
                 gTranslate(2,-0.5,4);
             }else{
                 gTranslate(-3,-0.5,4);
             }
             gScale(1.5,1.5,1.5);
-            useTexture(2, gl);
-            create_house();
+            useTexture(0, gl);
+            create_weed();
         }
         gPop();
     }
