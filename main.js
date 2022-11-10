@@ -430,82 +430,92 @@ function gPush() {
     MS.push(modelMatrix) ;
 }
 
-function create_weed(){
-    gScale(0.9,0.9,0.9);
-    gPush();
-    {
-        gScale(0.8,2,0.8);
-        gTranslate(0,0,0);
-        gRotate(-90,1,0,0);
-        drawCone();
-    }
-    gPop();
+function create_weed(i){
+    gPush();{
+        gScale(0.5*Math.cos(TIME)+1,1,1);
+        gPush();{
+            gScale(0.9,0.9,0.9);
+            gPush();
+            {
+                gScale(0.8,2,0.8);
+                gTranslate(0,0,0);
+                gRotate(-90,1,0,0);
+                drawCone();
+            }
+            gPop();
 
-    gPush();
-    {
-        gScale(0.4,1,0.4);
-        gTranslate(1,0,0);
-        gRotate(-90,1,0,0);
-        drawCone();
-    }
-    gPop();
+            gPush();
+            {
+                gScale(0.4,1,0.4);
+                gTranslate(1,0,0);
+                gRotate(-90,1,0,0);
+                drawCone();
+            }
+            gPop();
 
-    gPush();
-    {
-        gScale(0.3,0.8,0.3);
-        gTranslate(-2,-0.2,0);
-        gRotate(-90,1,0,0);
-        drawCone();
-    }
-    gPop();
+            gPush();
+            {
+                gScale(0.3,0.8,0.3);
+                gTranslate(-2,-0.2,0);
+                gRotate(-90,1,0,0);
+                drawCone();
+            }
+            gPop();
+        }gPop();
+    }gPop();
 }
 
 function create_exlosion(){
     gPush();
     {
-        gScale(0.8,0.8,0.8);
+        gScale(0.5*Math.cos(TIME)+1.5, 0.5*Math.cos(TIME)+1.5, 0.5*Math.cos(TIME)+1.5);
         gPush();
         {
-            drawSphere();
-        }
-        gPop();
-
-        gPush();
-        {
-            gTranslate(1,0,0);
-            gRotate(90,0,1,0);
             gScale(0.8,0.8,0.8);
-            drawCone();
-        }
-        gPop();
+            gPush();
+            {
+                drawSphere();
+            }
+            gPop();
 
-        gPush();
-        {
-            gTranslate(-1,0.3,0);
-            gRotate(-90,0,1,0);
-            gRotate(-20,1,0,0);
-            gScale(0.8,0.8,0.8);
-            drawCone();
-        }
-        gPop();
+            gPush();
+            {
+                gTranslate(1,0,0);
+                gRotate(90,0,1,0);
+                gScale(0.8,0.8,0.8);
+                drawCone();
+            }
+            gPop();
 
-        gPush();
-        {
-            gTranslate(0,1,0);
-            gRotate(-90,0,1,0);
-            gRotate(-90,1,0,0);
-            gScale(0.8,0.8,0.8);
-            drawCone();
-        }
-        gPop();
+            gPush();
+            {
+                gTranslate(-1,0.3,0);
+                gRotate(-90,0,1,0);
+                gRotate(-20,1,0,0);
+                gScale(0.8,0.8,0.8);
+                drawCone();
+            }
+            gPop();
 
-        gPush();
-        {
-            gTranslate(0,-1,0);
-            gRotate(-90,0,1,0);
-            gRotate(90,1,0,0);
-            gScale(0.8,0.8,0.8);
-            drawCone();
+            gPush();
+            {
+                gTranslate(0,1,0);
+                gRotate(-90,0,1,0);
+                gRotate(-90,1,0,0);
+                gScale(0.8,0.8,0.8);
+                drawCone();
+            }
+            gPop();
+
+            gPush();
+            {
+                gTranslate(0,-1,0);
+                gRotate(-90,0,1,0);
+                gRotate(90,1,0,0);
+                gScale(0.8,0.8,0.8);
+                drawCone();
+            }
+            gPop();
         }
         gPop();
     }
@@ -934,8 +944,7 @@ function render() {
 
     // ** Weed starts here **
     // appears every 5 second for 3 times.
-
-    if( TIME - weed_destroy_timer >= 8 && weed_appear_counter < 4){
+    if( TIME - weed_destroy_timer >= 8 && weed_appear_counter <= 4){
         weed_appear_timer += 5*weed_appear_counter;
         weed_destroy_timer += 8*weed_appear_counter;
         weed_appear_counter++;
@@ -977,7 +986,7 @@ function render() {
             }
             gScale(1.5,1.5,1.5);
             useTexture(0, gl);
-            create_weed();
+            create_weed(TIME);
         }
         gPop();
     }
