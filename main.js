@@ -142,12 +142,12 @@ function initTextures() {
     
     textureArray.push({}) ;
     loadFileTexture(textureArray[textureArray.length-1],"grass.png") ;
+
+    textureArray.push({}) ;
+    loadImageTexture(textureArray[textureArray.length-1],"4KCheetaSeemless.jpg") ;
     
-    //textureArray.push({}) ;
-    //loadFileTexture(textureArray[textureArray.length-1],"bricks2.jpg") ;
-    
-    //textureArray.push({}) ;
-    //loadImageTexture(textureArray[textureArray.length-1],"4KCheetaSeemless.jpg") ;
+    textureArray.push({}) ;
+    loadFileTexture(textureArray[textureArray.length-1],"bricks2.jpg") ;
     
     
 }
@@ -425,7 +425,7 @@ function create_house(){
     gPop();
     
     gPush();
-    {
+    {   
         gScale(0.7,0.7,0.7);
         gTranslate(0,1,0);
         gRotate(-90,1,0,0);
@@ -490,23 +490,10 @@ function render() {
         gCamRotate(TIME*18+10, 0, -1, 0);
     }
     
-    // ** Texture stuff **
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, textureArray[0].textureWebGL);
-    gl.uniform1i(gl.getUniformLocation(program, "texture1"), 0);
-
-    // gl.activeTexture(gl.TEXTURE1);
-    // gl.bindTexture(gl.TEXTURE_2D, textureArray[1].textureWebGL);
-    // gl.uniform1i(gl.getUniformLocation(program, "texture2"), 1);
-
-    // gl.activeTexture(gl.TEXTURE2);
-    // gl.bindTexture(gl.TEXTURE_2D, textureArray[2].textureWebGL);
-    // gl.uniform1i(gl.getUniformLocation(program, "texture3"), 2);
-    
-    // ** Texture stuff end here **
     gPush();
     {//floor
         gPush();{
+            useTexture(0, gl);
             setColor(vec4(0,1,0,1));
             gTranslate(0,-4.2,0);
             gScale(8,3,8);
@@ -517,6 +504,7 @@ function render() {
     gPop();
     
     gPush();{
+        useTexture(2, gl);
         setColor(vec4(1,1,1,1))
         gPush();{
             gTranslate(0, 0.7, 0);
@@ -536,9 +524,7 @@ function render() {
         gRotate(TIME*18, 0, 1, 0);
         gTranslate(0, 0, 4.5);
 
-        //gCamRotate(-90, 0, 1, 0);
-        //gCamScale(1, 4, 4);
-
+        useTexture(1, gl);
         gPush();
         {// ** Cat modeling starts here **
             gTranslate(0.2, 0, 0);
@@ -766,6 +752,7 @@ function render() {
                 gTranslate(-3,-0.5,4);
             }
             gScale(1.5,1.5,1.5);
+            useTexture(2, gl);
             create_house();
         }
         gPop();
@@ -795,6 +782,11 @@ function render() {
         drawCylinder();
     }
 
+    function useTexture(i, gl){
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, textureArray[i].textureWebGL);
+        gl.uniform1i(gl.getUniformLocation(program, "texture" + (i + 1)), 0);
+    }
     // ** House ends here **
     if( animFlag )
         window.requestAnimFrame(render);
