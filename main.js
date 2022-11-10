@@ -461,6 +461,63 @@ function create_weed(){
     gPop();
 }
 
+function create_exlosion(){
+    gPush();
+    {
+        gScale(0.8,0.8,0.8);
+        gPush();
+        {
+            drawSphere();
+        }
+        gPop();
+
+        gPush();
+        {
+            gTranslate(1,0,0);
+            gRotate(90,0,1,0);
+            gScale(0.8,0.8,0.8);
+            drawCone();
+        }
+        gPop();
+
+        gPush();
+        {
+            gTranslate(-1,0.3,0);
+            gRotate(-90,0,1,0);
+            gRotate(-20,1,0,0);
+            gScale(0.8,0.8,0.8);
+            drawCone();
+        }
+        gPop();
+
+        gPush();
+        {
+            gTranslate(0,1,0);
+            gRotate(-90,0,1,0);
+            gRotate(-90,1,0,0);
+            gScale(0.8,0.8,0.8);
+            drawCone();
+        }
+        gPop();
+
+        gPush();
+        {
+            gTranslate(0,-1,0);
+            gRotate(-90,0,1,0);
+            gRotate(90,1,0,0);
+            gScale(0.8,0.8,0.8);
+            drawCone();
+        }
+        gPop();
+
+
+
+    }
+    gPop();
+    
+    
+}
+
 
 function render() {
     // ** code to display frames per second starts here **
@@ -830,6 +887,26 @@ function render() {
         weed_destroy_timer += 8*weed_appear_counter;
         weed_appear_counter++;
         //resetCam();
+    }
+
+    // ** create explosion **
+    if(TIME - weed_destroy_timer <= 8 && TIME - weed_appear_timer < 5 && weed_appear_counter > 1 ){
+        gPush();
+        {
+            setColor(vec4(0,1,0,1));
+            if(weed_appear_counter == 1){
+                gTranslate(-4,0,0);
+            }else if(weed_appear_counter == 2){
+                gTranslate(-4,0,0);
+            }else if(weed_appear_counter == 3){
+                gTranslate(2,0,4);
+            }else{
+                gTranslate(-3,0,4);
+            }
+            //useTexture(0, gl);
+            create_exlosion();
+        }
+        gPop();
     }
 
     if(TIME - weed_appear_timer > 5 && weed_appear_counter < 4){
