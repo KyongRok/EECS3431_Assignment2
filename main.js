@@ -1,7 +1,8 @@
 // Template code for A2 Fall 2021 -- DO NOT DELETE THIS LINE
 //open -a "Google Chrome" --args --allow-file-access-from-files
 //chrome --allow-access-from-files
-
+//York University EECS3431 Assignment 2 Free Animation 
+//Group Members: KyongRok Kim 215813413, Arian Quader 218070607
 var canvas;
 var gl;
 
