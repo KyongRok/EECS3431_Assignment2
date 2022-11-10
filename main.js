@@ -794,7 +794,8 @@ function render() {
         }
         gPop();
     }
-
+    // ** weed ends here **
+    
     function tail(){
         for(let i = 1; i <= 5; i++){
             gTranslate(0,0.15,0);
@@ -824,7 +825,6 @@ function render() {
         gl.bindTexture(gl.TEXTURE_2D, textureArray[i].textureWebGL);
         gl.uniform1i(gl.getUniformLocation(program, "texture" + (i + 1)), 0);
     }
-    // ** House ends here **
     if( animFlag )
         window.requestAnimFrame(render);
 }
