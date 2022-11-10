@@ -144,7 +144,7 @@ function initTextures() {
     loadFileTexture(textureArray[textureArray.length-1],"grass.png") ;
 
     textureArray.push({}) ;
-    loadImageTexture(textureArray[textureArray.length-1],"4KCheetaSeemless.png") ;
+    loadFileTexture(textureArray[textureArray.length-1],"fur.png") ;
     
     textureArray.push({}) ;
     loadFileTexture(textureArray[textureArray.length-1],"bricks2.png") ;
@@ -729,7 +729,7 @@ function render() {
     // ** Cat modling ends here **
 
     // ** House starts here **
-    // appears every 5 second for 4 times.
+    // appears every 5 second for 3 times.
 
     if( TIME - house_destroy_timer >= 8 && house_appear_counter < 4){
         house_appear_timer += 5*house_appear_counter;
